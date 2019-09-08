@@ -1,0 +1,70 @@
+version: '3.7'
+
+services:
+  ### MariaDB ##############################################
+  spider_node:
+    build: ./db/spider_node
+    container_name: spider_node
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: spider_db
+      TZ: 'Asia/Tokyo'
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/spider_node/data:/var/lib/mysql/spider_node
+      - ./db/spider_node/my.cnf:/etc/mysql/my.cnf
+      - ./db/spider_node/init:/docker-entrypoint-initdb.d
+    networks:
+      spider:
+        ipv4_address: 192.168.10.100
+  # data_node1:
+  data_node1:
+    image: mariadb:10.4.7
+    container_name: data_node1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: spider_db
+      TZ: 'Asia/Tokyo'
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3307:3306
+    volumes:
+      - ./db/data_node1/data:/var/lib/mysql/data_node1
+      - ./db/data_node1/my.cnf:/etc/mysql/my.cnf
+      - ./db/data_node1/init:/docker-entrypoint-initdb.d
+    networks:
+      spider:
+        ipv4_address: 192.168.10.101
+  # data_node2:
+  data_node2:
+    image: mariadb:10.4.7
+    container_name: data_node2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: spider_db
+      TZ: 'Asia/Tokyo'
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3308:3306
+    volumes:
+      - ./db/data_node2/data:/var/lib/mysql/data_node2
+      - ./db/data_node2/my.cnf:/etc/mysql/my.cnf
+      - ./db/data_node2/init:/docker-entrypoint-initdb.d
+    networks:
+      spider:
+        ipv4_address: 192.168.10.102
+networks:
+  spider:
+    external:
+      name: spider

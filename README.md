@@ -2,7 +2,7 @@
 
 ## Overview
 
-https://mariadb.com/kb/en/spider-storage-engine-overview/+image/spider_overview
+![](https://mariadb.com/kb/en/spider-storage-engine-overview/+image/spider_overview)
 
 > The Spider storage engine is a storage engine with built-in sharding features. It supports partitioning and xa transactions, and allows tables of different MariaDB instances to be handled as if they were on the same instance. It refers to one possible implementation of ISO/IEC 9075-9:2008 SQL/MED.
 > When a table is created with the Spider storage engine, the table links to the table on a remote server. The remote table can be of any storage engine. The table link is concretely achieved by the establishment of the connection from a local MariaDB server to a remote MariaDB server. The link is shared for all tables that are part of a the same transaction.
@@ -11,15 +11,15 @@ https://mariadb.com/kb/en/library/spider-storage-engine-overview/
 
 ## Setup
 
-- Create docker network.  
+1. Create docker network.  
   `$ docker network create --gateway 192.168.10.1 --subnet 192.168.10.0/24 spider`
-- Build image.  
+1. Build image.  
   `$ make docker/build`
-- To bash into spider_node.
+1. To bash into spider_node.  
   `$ make bash`
-- Install SPIDER ENGINE.
+1. Install SPIDER ENGINE.  
   `$ mariadb -uroot -p$MYSQL_ROOT_PASSWORD -e "source /usr/share/mysql/install_spider.sql"`
-- Creates the definition of a server for use with the Spider.
+1. Creates the definition of a server for use with the Spider.  
   `$ mariadb -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE SERVER data_node1 FOREIGN DATA WRAPPER mysql OPTIONS (USER 'root', PASSWORD 'password', HOST '192.168.10.101', PORT 3307);"`  
   `$ mariadb -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE SERVER data_node2 FOREIGN DATA WRAPPER mysql OPTIONS (USER 'root', PASSWORD 'password', HOST '192.168.10.102', PORT 3308);"`
 

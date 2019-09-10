@@ -60,22 +60,17 @@ CREATE TABLE employees
 
 ```
 # spider_node
-MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Tom', 1, NOW());
-Query OK, 1 row affected (0.013 sec)
-
-MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Jim', 2, NOW());
-Query OK, 1 row affected (0.012 sec)
-
-MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Watson', 3, NOW());
-Query OK, 1 row affected (0.007 sec)
+MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Tom', 1, NOW()),('Jim', 2, NOW()),('Watson', 3, NOW());
+Query OK, 3 rows affected (0.020 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 
 MariaDB [spider_db]> select * from employees;
 +----+--------+---------------+---------------------+------------+
 | id | name   | department_id | created_at          | updated_at |
 +----+--------+---------------+---------------------+------------+
-|  2 | Jim    |             2 | 2019-09-10 23:31:43 | NULL       |
-|  1 | Tom    |             1 | 2019-09-10 23:31:40 | NULL       |
-|  3 | Watson |             3 | 2019-09-10 23:31:45 | NULL       |
+|  2 | Jim    |             2 | 2019-09-11 08:01:56 | NULL       |
+|  1 | Tom    |             1 | 2019-09-11 08:01:56 | NULL       |
+|  3 | Watson |             3 | 2019-09-11 08:01:56 | NULL       |
 +----+--------+---------------+---------------------+------------+
 3 rows in set (0.005 sec)
 
@@ -84,17 +79,17 @@ MariaDB [spider_db]> select * from employees;
 +----+------+---------------+---------------------+------------+
 | id | name | department_id | created_at          | updated_at |
 +----+------+---------------+---------------------+------------+
-|  2 | Jim  |             2 | 2019-09-10 23:31:43 | NULL       |
+|  2 | Jim  |             2 | 2019-09-11 08:01:56 | NULL       |
 +----+------+---------------+---------------------+------------+
-1 row in set (0.001 sec)
+1 row in set (0.000 sec)
 
 # data_node2
 MariaDB [spider_db]> select * from employees;
 +----+--------+---------------+---------------------+------------+
 | id | name   | department_id | created_at          | updated_at |
 +----+--------+---------------+---------------------+------------+
-|  1 | Tom    |             1 | 2019-09-10 23:31:40 | NULL       |
-|  3 | Watson |             3 | 2019-09-10 23:31:45 | NULL       |
+|  1 | Tom    |             1 | 2019-09-11 08:01:56 | NULL       |
+|  3 | Watson |             3 | 2019-09-11 08:01:56 | NULL       |
 +----+--------+---------------+---------------------+------------+
-2 rows in set (0.001 sec)
+2 rows in set (0.000 sec)
 ```

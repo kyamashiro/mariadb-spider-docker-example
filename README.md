@@ -1,4 +1,4 @@
-# Spider Engine Dockerfile
+# Spider storage engine Dockerfile
 
 ## Overview
 

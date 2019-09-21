@@ -5,7 +5,7 @@ services:
   spider_node:
     build: ./db/spider_node
     container_name: spider_node
-    restart: always
+
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: user
@@ -26,7 +26,6 @@ services:
   data_node1:
     image: mariadb:10.4.7
     container_name: data_node1
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: user
@@ -47,7 +46,6 @@ services:
   data_node2:
     image: mariadb:10.4.7
     container_name: data_node2
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: user

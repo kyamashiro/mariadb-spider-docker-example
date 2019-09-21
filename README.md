@@ -1,8 +1,8 @@
-# Spider Engine Dockerfile
+# Spider storage engine Dockerfile
 
 ## Overview
 
-https://mariadb.com/kb/en/spider-storage-engine-overview/+image/spider_overview
+![](https://mariadb.com/kb/en/spider-storage-engine-overview/+image/spider_overview)
 
 > The Spider storage engine is a storage engine with built-in sharding features. It supports partitioning and xa transactions, and allows tables of different MariaDB instances to be handled as if they were on the same instance. It refers to one possible implementation of ISO/IEC 9075-9:2008 SQL/MED.
 > When a table is created with the Spider storage engine, the table links to the table on a remote server. The remote table can be of any storage engine. The table link is concretely achieved by the establishment of the connection from a local MariaDB server to a remote MariaDB server. The link is shared for all tables that are part of a the same transaction.
@@ -11,15 +11,15 @@ https://mariadb.com/kb/en/library/spider-storage-engine-overview/
 
 ## Setup
 
-- Create docker network.  
+1. Create docker network.  
   `$ docker network create --gateway 192.168.10.1 --subnet 192.168.10.0/24 spider`
-- Build image.  
+1. Build image.  
   `$ make docker/build`
-- To bash into spider_node.
+1. To bash into spider_node.  
   `$ make bash`
-- Install SPIDER ENGINE.
+1. Install SPIDER ENGINE.  
   `$ mariadb -uroot -p$MYSQL_ROOT_PASSWORD -e "source /usr/share/mysql/install_spider.sql"`
-- Creates the definition of a server for use with the Spider.
+1. Creates the definition of a server for use with the Spider.  
   `$ mariadb -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE SERVER data_node1 FOREIGN DATA WRAPPER mysql OPTIONS (USER 'root', PASSWORD 'password', HOST '192.168.10.101', PORT 3307);"`  
   `$ mariadb -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE SERVER data_node2 FOREIGN DATA WRAPPER mysql OPTIONS (USER 'root', PASSWORD 'password', HOST '192.168.10.102', PORT 3308);"`
 
@@ -60,22 +60,17 @@ CREATE TABLE employees
 
 ```
 # spider_node
-MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Tom', 1, NOW());
-Query OK, 1 row affected (0.013 sec)
-
-MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Jim', 2, NOW());
-Query OK, 1 row affected (0.012 sec)
-
-MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Watson', 3, NOW());
-Query OK, 1 row affected (0.007 sec)
+MariaDB [spider_db]> INSERT INTO employees(name, department_id, created_at) VALUES ('Tom', 1, NOW()),('Jim', 2, NOW()),('Watson', 3, NOW());
+Query OK, 3 rows affected (0.020 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 
 MariaDB [spider_db]> select * from employees;
 +----+--------+---------------+---------------------+------------+
 | id | name   | department_id | created_at          | updated_at |
 +----+--------+---------------+---------------------+------------+
-|  2 | Jim    |             2 | 2019-09-10 23:31:43 | NULL       |
-|  1 | Tom    |             1 | 2019-09-10 23:31:40 | NULL       |
-|  3 | Watson |             3 | 2019-09-10 23:31:45 | NULL       |
+|  2 | Jim    |             2 | 2019-09-11 08:01:56 | NULL       |
+|  1 | Tom    |             1 | 2019-09-11 08:01:56 | NULL       |
+|  3 | Watson |             3 | 2019-09-11 08:01:56 | NULL       |
 +----+--------+---------------+---------------------+------------+
 3 rows in set (0.005 sec)
 
@@ -84,17 +79,17 @@ MariaDB [spider_db]> select * from employees;
 +----+------+---------------+---------------------+------------+
 | id | name | department_id | created_at          | updated_at |
 +----+------+---------------+---------------------+------------+
-|  5 | Jim  |             2 | 2019-09-10 23:30:23 | NULL       |
+|  2 | Jim  |             2 | 2019-09-11 08:01:56 | NULL       |
 +----+------+---------------+---------------------+------------+
-1 row in set (0.001 sec)
+1 row in set (0.000 sec)
 
 # data_node2
 MariaDB [spider_db]> select * from employees;
 +----+--------+---------------+---------------------+------------+
 | id | name   | department_id | created_at          | updated_at |
 +----+--------+---------------+---------------------+------------+
-|  1 | Tom    |             1 | 2019-09-10 23:31:40 | NULL       |
-|  3 | Watson |             3 | 2019-09-10 23:31:45 | NULL       |
+|  1 | Tom    |             1 | 2019-09-11 08:01:56 | NULL       |
+|  3 | Watson |             3 | 2019-09-11 08:01:56 | NULL       |
 +----+--------+---------------+---------------------+------------+
-2 rows in set (0.001 sec)
+2 rows in set (0.000 sec)
 ```

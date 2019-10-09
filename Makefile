@@ -1,13 +1,13 @@
-docker/start: docker-compose.yml
-	docker-compose up -d spider_node data_node1 data_node2
+start: docker-compose.yml
+	docker-compose up -d
 
-docker/stop:
+stop:
 	docker-compose stop
 
-docker/build:
+build:
 	docker-compose -f "docker-compose.yml" up -d --build
 
-docker/remove:
+remove:
 	docker-compose stop
 	docker-compose rm
 

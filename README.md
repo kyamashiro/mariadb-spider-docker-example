@@ -37,8 +37,8 @@ CREATE TABLE employees
     PRIMARY KEY (id)
 ) ENGINE = SPIDER DEFAULT CHARSET=utf8mb4
 PARTITION BY HASH(id) (
-  PARTITION p1 comment 'server "data-node1", table "employees"',
-  PARTITION p2 comment 'server "data-node2", table "employees"'
+  PARTITION p1 comment 'server "data_node1", table "employees"',
+  PARTITION p2 comment 'server "data_node2", table "employees"'
 );
 ```
 

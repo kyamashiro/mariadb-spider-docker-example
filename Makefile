@@ -1,4 +1,4 @@
-start: docker-compose.yml
+start:
 	docker-compose up -d
 
 stop:

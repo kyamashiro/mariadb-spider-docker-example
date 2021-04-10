@@ -14,7 +14,7 @@ https://mariadb.com/kb/en/library/spider-storage-engine-overview/
 1. Create docker network.  
   `$ docker network create --gateway 192.168.10.1 --subnet 192.168.10.0/24 spider`
 1. Build image.  
-  `$ make docker/build`
+  `$ make build`
 1. To bash into spider_node.  
   `$ make bash`
 1. Install SPIDER ENGINE.  
